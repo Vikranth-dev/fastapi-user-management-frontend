@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../services/api";
 import "../styles/task.css";
+const ALLOWED_STATUSES = ["Todo", "In Progress", "Done"];
 
 export default function Task({
   type,
@@ -25,13 +26,23 @@ export default function Task({
 
   // ---------- Handlers ----------
   const handleCreate = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    setSuccess("");
+  e.preventDefault();
+  setError("");
+  setSuccess("");
 
-    try {
-      await API.post("/tasks/", { title, description });
+  // Validation
+  if (!title.trim()) {
+    setError("Title is required");
+    return;
+  }
+  if (!ALLOWED_STATUSES.includes(status)) {
+    setError("Invalid task status");
+    return;
+  }
+  setLoading(true);
+  try {
+    await API.post("/tasks/", { title, description, status });
+
       setTitle("");
       setDescription("");
       refreshTasks();
@@ -45,13 +56,29 @@ export default function Task({
   };
 
   const handleUpdate = async () => {
-    if (!selectedTask) return setError("Select a task to update");
+  setError("");
+  setSuccess("");
 
-    setLoading(true);
-    setError("");
-    setSuccess("");
+  if (!selectedTask) {
+    setError("Select a task to update");
+    return;
+  }
+  // Validation
+  if (!editTitle.trim()) {
+    setError("Title cannot be empty");
+    return;
+  }
+  if (!editDescription.trim()) {
+    setError("Description cannot be empty");
+    return;
+  }
+  if (!ALLOWED_STATUSES.includes(status)) {
+    setError("Invalid task status");
+    return;
+  }
+  setLoading(true);
+  try {
 
-    try {
       await API.put(`/tasks/${selectedTask.id}`, {
         title: editTitle,
         description: editDescription,
