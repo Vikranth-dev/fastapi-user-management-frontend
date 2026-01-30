@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../services/api";
 import "../styles/task.css";
+
 const ALLOWED_STATUSES = ["Todo", "In Progress", "Done"];
 
 export default function Task({
@@ -24,25 +25,31 @@ export default function Task({
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  // ---------- Delete/Search ----------
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Filtered tasks for search
+  const filteredTasks = tasks.filter((task) =>
+    task.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   // ---------- Handlers ----------
   const handleCreate = async (e) => {
-  e.preventDefault();
-  setError("");
-  setSuccess("");
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    if (!title.trim()) {
+      setError("Title is required");
+      return;
+    }
+    if (!description.trim()) {
+      setError("Description is required");
+      return;
+    }
 
-  // Validation
-  if (!title.trim()) {
-    setError("Title is required");
-    return;
-  }
-  if (!ALLOWED_STATUSES.includes(status)) {
-    setError("Invalid task status");
-    return;
-  }
-  setLoading(true);
-  try {
-    await API.post("/tasks/", { title, description, status });
-
+    setLoading(true);
+    try {
+      await API.post("/tasks/", { title, description, status });
       setTitle("");
       setDescription("");
       refreshTasks();
@@ -56,34 +63,28 @@ export default function Task({
   };
 
   const handleUpdate = async () => {
-  setError("");
-  setSuccess("");
+    setError("");
+    setSuccess("");
+    if (!selectedTask) {
+      setError("Select a task to update");
+      return;
+    }
+    if (!editTitle.trim()) {
+      setError("Title cannot be empty");
+      return;
+    }
+    if (!editDescription.trim()) {
+      setError("Description cannot be empty");
+      return;
+    }
+    if (!ALLOWED_STATUSES.includes(status)) {
+      setError("Invalid task status");
+      return;
+    }
 
-  if (!selectedTask) {
-    setError("Select a task to update");
-    return;
-  }
-  // Validation
-  if (!editTitle.trim()) {
-    setError("Title cannot be empty");
-    return;
-  }
-  if (!editDescription.trim()) {
-    setError("Description cannot be empty");
-    return;
-  }
-  if (!ALLOWED_STATUSES.includes(status)) {
-    setError("Invalid task status");
-    return;
-  }
-  setLoading(true);
-  try {
-
-      await API.put(`/tasks/${selectedTask.id}`, {
-        title: editTitle,
-        description: editDescription,
-        status,
-      });
+    setLoading(true);
+    try {
+      await API.put(`/tasks/${selectedTask.id}`, {title: editTitle,description: editDescription,status,});
       refreshTasks();
       setSuccess("Task updated successfully!");
     } catch (err) {
@@ -93,10 +94,13 @@ export default function Task({
       setLoading(false);
     }
   };
-
   const handleDelete = async () => {
-    if (!selectedTask) return setError("Select a task to delete");
-
+    if (!selectedTask) {
+      setError("Select a task to delete");
+      return;
+    }
+    const confirmed = window.confirm("Are you sure you want to delete this task?");
+    if (!confirmed) return;
     setLoading(true);
     setError("");
     setSuccess("");
@@ -147,32 +151,44 @@ export default function Task({
 
       {/* List Tab */}
       {type === "list" && (
-        <table className="task-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Task</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Created</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.map((task) => (
-              <tr key={task.id}>
-                <td>{task.task_number}</td>
-                <td>{task.title}</td>
-                <td>{task.description}</td>
-                <td>{task.status}</td>
-                <td>
-                  {task.created_at
-                    ? new Date(task.created_at).toLocaleString()
-                    : "—"}
-                </td>
+        <div>
+          <input
+            placeholder="Search task..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
+          />
+          {filteredTasks.length === 0 ? (
+            <p>No tasks found</p>
+          ) : 
+          <table className="task-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Task</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Created</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {(searchTerm ? filteredTasks : tasks).map((task) => (
+                <tr key={task.id}>
+                  <td>{task.task_number}</td>
+                  <td>{task.title}</td>
+                  <td>{task.description}</td>
+                  <td>{task.status}</td>
+                  <td>
+                    {task.created_at
+                      ? new Date(task.created_at).toLocaleString()
+                      : "—"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+}
+        </div>
       )}
 
       {/* Update/Delete Tab */}
@@ -180,29 +196,61 @@ export default function Task({
         <div>
           <h2>{type === "update" ? "Update Task" : "Delete Task"}</h2>
 
-          {/* Task selector */}
-          <select
-            className="task-select"
-            value={selectedTask?.id || ""}
+          {/* Search bar */}
+          <input
+            placeholder="Search task..."
+            value={searchTerm}
             onChange={(e) => {
-              const task = tasks.find(
-                (t) => t.id === parseInt(e.target.value)
-              );
-              setSelectedTask(task);
-              if (task) {
-                setEditTitle(task.title);
-                setEditDescription(task.description);
-                setStatus(task.status);
-              }
+              setSearchTerm(e.target.value);
+              setSelectedTask(null); // Reset selection on new search
             }}
-          >
-            <option value="">Select Task</option>
-            {tasks.map((task) => (
-              <option key={task.id} value={task.id}>
-                {task.task_number}. {task.title} ({task.status})
-              </option>
-            ))}
-          </select>
+            style={{ marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
+          />
+
+          {/* Only show tasks if search term is entered */}
+          {searchTerm && filteredTasks.length > 0 && (
+            <table className="task-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Task</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredTasks.map((task) => (
+                  <tr
+                    key={task.id}
+                    style={{
+                      backgroundColor:
+                        selectedTask?.id === task.id ? "#f0f8ff" : "transparent",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      setSelectedTask(task);
+                      if (type === "update") {
+                        setEditTitle(task.title);
+                        setEditDescription(task.description);
+                        setStatus(task.status);
+                      }
+                    }}
+                  >
+                    <td>{task.task_number}</td>
+                    <td>{task.title}</td>
+                    <td>{task.description}</td>
+                    <td>{task.status}</td>
+                    <td>
+                      {task.created_at
+                        ? new Date(task.created_at).toLocaleString()
+                        : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
 
           {/* Update Form */}
           {type === "update" && selectedTask && (
@@ -226,9 +274,11 @@ export default function Task({
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
-                <option value="Todo">Todo</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Done">Done</option>
+                {ALLOWED_STATUSES.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
               </select>
               <br />
               <button onClick={handleUpdate} disabled={loading}>
