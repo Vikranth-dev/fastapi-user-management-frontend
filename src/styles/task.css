@@ -1,0 +1,33 @@
+
+.task-form {
+  max-width: 400px;
+}
+
+.task-form button {
+  width: 100%;
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.task-table th,
+.task-table td {
+  padding: 8px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.task-table th {
+  background-color: #f0f0f0;
+}
+
+.task-select {
+  margin-bottom: 1rem;
+}
+
+.task-message {
+  margin-top: 0.5rem;
+  color: #333;
+}

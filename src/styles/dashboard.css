@@ -1,0 +1,21 @@
+
+.dashboard-container {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 6px;
+}
+
+.dashboard-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.dashboard-actions button {
+  flex: 1;
+}
+
+.logout-btn {
+  background-color: #ffefef;
+  border-color: #ffb3b3;
+}
