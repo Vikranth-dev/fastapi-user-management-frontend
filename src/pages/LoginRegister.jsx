@@ -39,9 +39,7 @@ export default function LoginRegister() {
 
 
 localStorage.setItem("token", response.data.access_token);
-    localStorage.setItem(
-  "user",
-  JSON.stringify({ name: loginUsername })
+    localStorage.setItem("user",JSON.stringify({ name: loginUsername })
 );
       navigate("/dashboard");
     } catch (err) {
@@ -88,92 +86,77 @@ localStorage.setItem("token", response.data.access_token);
       setRegLoading(false);
     }
   };
-
-  return (
-    <div className="auth-container">
-      <div className="auth-switch">
-        <button
-          aria-label="Switch to login"
-          onClick={() => setIsRegister(false)}
-          disabled={!isRegister}
-        >
-          Login
+return (
+  <div className="auth-container">
+    {!isRegister ? (
+      <form onSubmit={handleLogin}>
+        <h2>Login</h2>
+        <input
+          type="text"
+          aria-label="Username"
+          placeholder="Username"
+          value={loginUsername}
+          onChange={(e) => setLoginUsername(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          aria-label="Password"
+          placeholder="Password"
+          value={loginPassword}
+          onChange={(e) => setLoginPassword(e.target.value)}
+          required
+        />
+        <button type="submit" disabled={loginLoading} aria-label="Login">
+          {loginLoading ? "Logging in..." : "Login"}
         </button>
-        <button
-          aria-label="Switch to register"
-          onClick={() => setIsRegister(true)}
-          disabled={isRegister}
-        >
-          Register
-        </button>
-      </div>
+        {loginError && <p className="auth-error">{loginError}</p>}
 
-      {!isRegister ? (
-        <form onSubmit={handleLogin}>
-          <h2>Login</h2>
-          <input
-            type="text"
-            aria-label="Username"
-            placeholder="Username"
-            value={loginUsername}
-            onChange={(e) => setLoginUsername(e.target.value)}
-            required
-          />
-          <br />
-          <input
-            type="password"
-            aria-label="Password"
-            placeholder="Password"
-            value={loginPassword}
-            onChange={(e) => setLoginPassword(e.target.value)}
-            required
-          />
-          <br />
-          <button type="submit" disabled={loginLoading} aria-label="Login">
-            {loginLoading ? "Logging in..." : "Login"}
-          </button>
-            {loginError && <p className="auth-error">{loginError}</p>}
-        </form>
-      ) : (
-        <form onSubmit={handleRegister}>
-          <h2>Register</h2>
-          <input
-            type="text"
-            aria-label="Username"
-            placeholder="Username"
-            value={regUsername}
-            onChange={(e) => setRegUsername(e.target.value)}
-            required
-          />
-          <br />
-          <input
-            type="password"
-            aria-label="Password"
-            placeholder="Password"
-            value={regPassword}
-            onChange={(e) => setRegPassword(e.target.value)}
-            required
-          />
-          <br />
-          <input
-            type="email"
-            aria-label="Email (optional)"
-            placeholder="Email (optional)"
-            value={regEmail}
-            onChange={(e) => setRegEmail(e.target.value)}
-          />
-          <br />
-          <button
-            type="submit"
-            disabled={regLoading}
-            aria-label="Register"
-          >
-            {regLoading ? "Registering..." : "Register"}
-          </button>
-          {regError && <p  className="auth-success">{regError}</p>}
-          {regSuccess && <p className="auth-success">{regSuccess}</p>}
-        </form>
-      )}
-    </div>
-  );
+        {/* Link for login */}
+        <div className="auth-footer">
+          Don't have an account?{" "}
+          <span onClick={() => setIsRegister(true)}>Create one</span>
+        </div>
+      </form>
+    ) : (
+      <form onSubmit={handleRegister}>
+        <h2>Register</h2>
+        <input
+          type="text"
+          aria-label="Username"
+          placeholder="Username"
+          value={regUsername}
+          onChange={(e) => setRegUsername(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          aria-label="Password"
+          placeholder="Password"
+          value={regPassword}
+          onChange={(e) => setRegPassword(e.target.value)}
+          required
+        />
+        <input
+          type="email"
+          aria-label="Email (optional)"
+          placeholder="Email (optional)"
+          value={regEmail}
+          onChange={(e) => setRegEmail(e.target.value)}
+        />
+        <button type="submit" disabled={regLoading} aria-label="Register">
+          {regLoading ? "Registering..." : "Register"}
+        </button>
+        {regError && <p className="auth-error">{regError}</p>}
+        {regSuccess && <p className="auth-success">{regSuccess}</p>}
+
+        {/* Footer link ONLY for register */}
+        <div className="auth-footer">
+          Already have an account?{" "}
+          <span onClick={() => setIsRegister(false)}>Login</span>
+        </div>
+      </form>
+    )}
+  </div>
+);
 }

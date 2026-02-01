@@ -1,21 +1,121 @@
-
-.dashboard-container {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 6px;
+.dashboard-header {
+  display: flex;
+  justify-content: space-between; /* 👈 pushes logout to right */
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #ddd;
 }
-
 .dashboard-actions {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 1rem;               /* space between buttons */
+  flex-wrap: wrap;          /* wrap if screen is small */
+  margin-bottom: 1.5rem;
 }
 
 .dashboard-actions button {
-  flex: 1;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #65558f;   /* match auth buttons */
+  color: white;
+  cursor: pointer;
+  min-width: 120px;            /* consistent button size */
+  transition: background 0.2s;
 }
 
+.dashboard-actions button:hover:not(:disabled) {
+  background-color: #533d78;
+}
+
+.dashboard-actions button:disabled {
+  background-color: #65558f;
+  cursor: not-allowed;
+}
+
+/* Tasks table / list */
+.task-section {
+  width: 100%;
+  overflow-x: auto;       /* horizontal scroll if needed */
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.task-table th,
+.task-table td {
+  padding: 8px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.task-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+/* Optional: messages (success/error) */
+.task-message {
+  color: #333;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+/* --- Logout button --- */
 .logout-btn {
-  background-color: #ffefef;
-  border-color: #ffb3b3;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #65558f;   /* matches auth buttons */
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.logout-btn:hover {
+  background-color: #e60e0e;
+}
+/* --- Task Form --- */
+.task-form {
+  max-width: 400px;
+  margin-top: 1rem;
+}
+
+.task-form input, 
+.task-form select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.task-form button {
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #65558f;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.task-form button:hover:not(:disabled) {
+  background-color: #533d78;
+}
+
+.task-form button:disabled {
+  background-color: #a5a1c3;
+  cursor: not-allowed;
+}
+
+/* --- Task messages --- */
+.task-message {
+  margin-top: 0.5rem;
+  color: #333;
 }

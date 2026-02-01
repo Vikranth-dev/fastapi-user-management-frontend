@@ -49,32 +49,34 @@ export default function Dashboard() {
     navigate("/");
   };
 
-  return (
-     <div className="dashboard-container">
-    {/* Welcome message */}
+ return (
+  <div className="dashboard-container">
+    {/* Welcome message + Logout button */}
     <div className="dashboard-header">
-      <h2>Welcome, {user?.name || "User"}👋 </h2>
-      <p className="subtitle">
-        Manage your tasks below. Create, update, or delete tasks.
-      </p>
+      <div className="user-info">
+        <h2>Welcome, {user?.name || "User"} 👋</h2>
+        <p className="subtitle">
+          Manage your tasks below. Create, update, or delete tasks.
+        </p>
+      </div>
+      <button onClick={handleLogout} className="logout-btn">
+        Logout
+      </button>
     </div>
-
       <div className="dashboard-actions">
         <button onClick={() => setTab("create")} disabled={tab === "create"}>📝
           Create Task
         </button>
-        <button onClick={() => setTab("list")} disabled={tab === "list"}>
+        <button onClick={() => setTab("list")} disabled={tab === "list"}>📃
           List Tasks
         </button>
-        <button onClick={() => setTab("update")} disabled={tab === "update"}>
+        <button onClick={() => setTab("update")} disabled={tab === "update"}>✏️
           Update Task
         </button>
-        <button onClick={() => setTab("delete")} disabled={tab === "delete"}>
+        <button onClick={() => setTab("delete")} disabled={tab === "delete"}>🗑️
           Delete Task
         </button>
-        <button onClick={handleLogout} className="logout-btn">
-          Logout
-        </button>
+       
       </div>
 
       {loading && <p>Loading tasks...</p>}

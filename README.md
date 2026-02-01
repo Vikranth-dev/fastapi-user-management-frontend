@@ -49,9 +49,6 @@ src/
  ├─ components/
  │   ├─ Task.jsx
  │   ├─ ProtectedRoute.jsx
- │   └─ tests/
- │       ├─ Task.test.jsx
- │       └─ LoginRegister.test.jsx
  │
  ├─ pages/
  │   ├─ LoginRegister.jsx
