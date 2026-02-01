@@ -13,6 +13,8 @@ export default function Dashboard() {
   const [error, setError] = useState(""); // Error state
 
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
+
 
   // Fetch tasks whenever tab changes
   useEffect(() => {
@@ -48,9 +50,17 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="dashboard-container">
+     <div className="dashboard-container">
+    {/* Welcome message */}
+    <div className="dashboard-header">
+      <h2>Welcome, {user?.name || "User"}👋 </h2>
+      <p className="subtitle">
+        Manage your tasks below. Create, update, or delete tasks.
+      </p>
+    </div>
+
       <div className="dashboard-actions">
-        <button onClick={() => setTab("create")} disabled={tab === "create"}>
+        <button onClick={() => setTab("create")} disabled={tab === "create"}>📝
           Create Task
         </button>
         <button onClick={() => setTab("list")} disabled={tab === "list"}>

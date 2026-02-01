@@ -39,6 +39,10 @@ export default function LoginRegister() {
 
 
 localStorage.setItem("token", response.data.access_token);
+    localStorage.setItem(
+  "user",
+  JSON.stringify({ name: loginUsername })
+);
       navigate("/dashboard");
     } catch (err) {
       console.error(err);
