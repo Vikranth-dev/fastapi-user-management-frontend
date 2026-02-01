@@ -207,50 +207,50 @@ export default function Task({
             style={{ marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
           />
 
-          {/* Only show tasks if search term is entered */}
-          {searchTerm && filteredTasks.length > 0 && (
-            <table className="task-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Task</th>
-                  <th>Description</th>
-                  <th>Status</th>
-                  <th>Created</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredTasks.map((task) => (
-                  <tr
-                    key={task.id}
-                    style={{
-                      backgroundColor:
-                        selectedTask?.id === task.id ? "#f0f8ff" : "transparent",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => {
-                      setSelectedTask(task);
-                      if (type === "update") {
-                        setEditTitle(task.title);
-                        setEditDescription(task.description);
-                        setStatus(task.status);
-                      }
-                    }}
-                  >
-                    <td>{task.task_number}</td>
-                    <td>{task.title}</td>
-                    <td>{task.description}</td>
-                    <td>{task.status}</td>
-                    <td>
-                      {task.created_at
-                        ? new Date(task.created_at).toLocaleString()
-                        : "—"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+         {/* Only show tasks if search term is entered */}
+{searchTerm && (
+  filteredTasks.length > 0 ? (
+    <table className="task-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Task</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filteredTasks.map((task) => (
+          <tr
+            key={task.id}
+            style={{
+              backgroundColor:
+                selectedTask?.id === task.id ? "#f0f8ff" : "transparent",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              setSelectedTask(task);
+              if (type === "update") {
+                setEditTitle(task.title);
+                setEditDescription(task.description);
+                setStatus(task.status);
+              }
+            }}
+          >
+            <td>{task.task_number}</td>
+            <td>{task.title}</td>
+            <td>{task.description}</td>
+            <td>{task.status}</td>
+            <td>{task.created_at ? new Date(task.created_at).toLocaleString() : "—"}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  ) : (
+    <p>No tasks found</p>
+  )
+)}
 
           {/* Update Form */}
           {type === "update" && selectedTask && (
@@ -290,7 +290,7 @@ export default function Task({
           {/* Delete Button */}
           {type === "delete" && selectedTask && (
             <div style={{ marginTop: "1rem" }}>
-              <button onClick={handleDelete} disabled={loading}>
+              <button onClick={handleDelete} disabled={!selectedTask || loading}>
                 {loading ? "Deleting..." : "Delete"}
               </button>
             </div>
