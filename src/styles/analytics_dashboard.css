@@ -1,0 +1,19 @@
+.analytics-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 24px;
+}
+
+.chart-wrapper {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); */
+}
+
+.timestamp {
+  margin-top: 16px;
+  color: #666;
+  font-size: 14px;
+  text-align: right;
+}

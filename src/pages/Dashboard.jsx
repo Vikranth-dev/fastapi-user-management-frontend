@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import Task from "../components/Task";
 import "../styles/dashboard.css";
+import AnalyticsDashboard from "./AnalyticsDashboard";
 
 export default function Dashboard() {
   const [tab, setTab] = useState("create");
@@ -44,10 +45,10 @@ export default function Dashboard() {
     }
   }, [tab, navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
+  const handleLogout = () => {localStorage.removeItem("token");
     navigate("/");
   };
+   const tasksForAction =selectedTask ? [selectedTask] : tasks;
 
  return (
   <div className="dashboard-container">
@@ -76,7 +77,12 @@ export default function Dashboard() {
         <button onClick={() => setTab("delete")} disabled={tab === "delete"}>🗑️
           Delete Task
         </button>
-       
+       {/* Analytics button for admins */}
+        {user?.role === "admin" && (
+        <button onClick={() => setTab("analytics")}>
+        📊 Analytics
+        </button>
+  )}
       </div>
 
       {loading && <p>Loading tasks...</p>}
@@ -91,7 +97,7 @@ export default function Dashboard() {
           {tab === "update" && (
             <Task
               type="update"
-              tasks={tasks}
+              tasks={tasksForAction}
               selectedTask={selectedTask}
               setSelectedTask={setSelectedTask}
               refreshTasks={() => setTab("list")}
@@ -100,13 +106,18 @@ export default function Dashboard() {
           {tab === "delete" && (
             <Task
               type="delete"
-              tasks={tasks}
+              tasks={tasksForAction}
               selectedTask={selectedTask}
               setSelectedTask={setSelectedTask}
               refreshTasks={() => setTab("list")}
             />
           )}
+          {tab === "analytics" && user?.role === "admin" && (
+  <AnalyticsDashboard />
+)}
+
         </>
+        
       )}
     </div>
   );
