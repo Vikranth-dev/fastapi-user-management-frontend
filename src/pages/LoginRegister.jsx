@@ -64,6 +64,12 @@ localStorage.setItem("token", response.data.access_token);
     setRegLoading(true);
 
     try {
+      if (regPassword.length < 6) {
+        setRegError("Password must be at least 6 characters long");
+        setRegLoading(false);
+        return;
+         }
+
        await API.post("/auth/register", {
         username: regUsername,
         password: regPassword,

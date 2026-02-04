@@ -55,7 +55,7 @@ export default function Dashboard() {
     {/* Welcome message + Logout button */}
     <div className="dashboard-header">
       <div className="user-info">
-        <h2>Welcome, {user?.name || "User"} 👋</h2>
+        <h2>Welcome, {user?.name || "User"} {user?.role === "admin" ? "👑" : "👋"}</h2>
         <p className="subtitle">
           Manage your tasks below. Create, update, or delete tasks.
         </p>
@@ -82,9 +82,7 @@ export default function Dashboard() {
         <button onClick={() => setTab("analytics")}> 📊
          Analytics
         </button>
-        
   )}
-  
       </div>
 
       {loading && <p>Loading tasks...</p>}

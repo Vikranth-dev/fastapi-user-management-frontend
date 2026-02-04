@@ -40,4 +40,22 @@
   font-size: 14px;
   text-align: right;
 }
+.analytics-table {
+  width: 50%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.analytics-table th,
+.analytics-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.analytics-table th {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+
 
