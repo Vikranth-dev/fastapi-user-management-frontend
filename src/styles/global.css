@@ -1,0 +1,52 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: auto;            /* allow content to flow naturally */
+  font-family: Arial, Helvetica, sans-serif;
+  /* background-color: #f5f7fa; */
+  color: #333;
+}
+
+/* --- Buttons --- */
+button {
+  cursor: pointer;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* --- Inputs / Selects --- */
+input,
+select {
+  padding: 6px;
+  margin-bottom: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* --- Login Page Centering --- */
+.login-page {
+  display: flex;
+  justify-content: center; /* horizontal center */
+  align-items: center;     /* vertical center */
+  height: 100vh;           /* full viewport height */
+}
+
+/* --- Dashboard Top-aligned --- */
+.dashboard-container {
+  max-width: 1200px;       /* limit width */
+  margin: 0 auto;          /* horizontal centering only */
+  padding: 20px 24px;      /* space from top + sides */
+  display: block;           /* natural flow from top */
+}

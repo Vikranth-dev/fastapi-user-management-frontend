@@ -120,7 +120,7 @@ export default function Task({
 
   // ---------- UI ----------
   return (
-    <div>
+    <div className="task-container">
       {/* Messages */}
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}

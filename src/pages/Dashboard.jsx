@@ -79,10 +79,12 @@ export default function Dashboard() {
         </button>
        {/* Analytics button for admins */}
         {user?.role === "admin" && (
-        <button onClick={() => setTab("analytics")}>
-        📊 Analytics
+        <button onClick={() => setTab("analytics")}> 📊
+         Analytics
         </button>
+        
   )}
+  
       </div>
 
       {loading && <p>Loading tasks...</p>}

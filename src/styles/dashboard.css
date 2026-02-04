@@ -1,6 +1,23 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.dashboard-container {
+  padding: 10px 20px 20px 20px; /* top padding to push content below header */
+  margin: 0;
+  width: 100%;
+  max-width: 1000px; /* optional, for consistent width */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dashboard-header h2 {
+  margin-top: 0; /* remove top gap */
+}
 .dashboard-header {
   display: flex;
-  justify-content: space-between; /* 👈 pushes logout to right */
+  justify-content: space-between; /*  pushes logout to right */
   align-items: center;
   margin-bottom: 1.5rem;
   padding-bottom: 0.5rem;

@@ -2,6 +2,12 @@
   max-width: 400px;
   margin-top: 1rem;        /* ✅ breathing space */
 }
+.task-container {
+  width: 100%;           /* full width */
+  margin: 0;             /* remove default top/left gaps */
+  padding-top: 20px;     /* space under dashboard header */
+  display: block;        /* ensure content starts at top-left */
+}
 
 /* inputs/selects inside task form */
 .task-form input,

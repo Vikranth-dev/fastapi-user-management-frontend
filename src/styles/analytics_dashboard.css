@@ -1,3 +1,25 @@
+.dashboard-tab-content {
+  padding-top: 20px; 
+  margin: 0 20px;
+}
+
+.analytics-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.dashboard-tab-content {
+  margin-top: 80px; /* height of header */
+  overflow-y: auto;
+}
+
+.analytics-cards .card {
+  flex: 1 1 200px; /* responsive card width */
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+}
 .analytics-container {
   max-width: 900px;
   margin: auto;
@@ -5,11 +27,12 @@
 }
 
 .chart-wrapper {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); */
+  width: 100%;
+  max-width: 700px;
+  height: 150px; /* set height so Chart.js can render properly */
+  margin-top: 20px;
 }
+
 
 .timestamp {
   margin-top: 16px;
@@ -17,3 +40,4 @@
   font-size: 14px;
   text-align: right;
 }
+
